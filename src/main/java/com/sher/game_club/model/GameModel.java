@@ -33,6 +33,19 @@ public class GameModel {
     public void setPrice(float price) {
         this.price = price;
     }
-
+    public GameModel(String id, String name, String description, float price) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
+    public GameModel() {
+    }
+    @Override
+    public String toString() {
+        return "GameModel [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price + "]";
+    }
+    
+    
     
 }
