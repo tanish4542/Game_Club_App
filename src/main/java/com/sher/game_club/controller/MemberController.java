@@ -1,6 +1,5 @@
 package com.sher.game_club.controller;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,42 +12,48 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.sher.game_club.model.MemberModel;
-import com.sher.game_club.repository.MemberRepository;
+import com.sher.game_club.exceptions.IdNotPresentException;
+import com.sher.game_club.services.MemberService;
 
 @RestController
 @RequestMapping("/members")
 public class MemberController {
     @Autowired
-    private MemberRepository memberRepository;
+    private MemberService memberService;
 
     @PostMapping
-    public MemberModel create(@RequestBody MemberModel member) {
-        member.setId(null);
-        return memberRepository.save(member);
+    public ResponseEntity<MemberModel> create(@RequestBody MemberModel member) {
+        MemberModel savedMember = memberService.create(member);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedMember);
     }
 
     @GetMapping
-    public List<MemberModel> getAll() {
-        return memberRepository.findAll();
+    public ResponseEntity<List<MemberModel>> findAll() {
+        List<MemberModel> members = memberService.findAll();
+        return ResponseEntity.status(HttpStatus.OK).body(members);
     }
 
     @GetMapping(path = "/{id}")
-    public MemberModel findById(@PathVariable String id) {
-        return memberRepository.findById(id).orElse(null);
+    public ResponseEntity<MemberModel> findById(@PathVariable String id) throws IdNotPresentException {
+        MemberModel member = memberService.findById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(member);
+    }
+
+    @GetMapping(path = "/phone/{phone}")
+    public ResponseEntity<MemberModel> findByPhone(@PathVariable String phone) throws IdNotPresentException {
+        MemberModel member = memberService.findByPhone(phone);
+        return ResponseEntity.status(HttpStatus.OK).body(member);
     }
 
     @PutMapping(path = "/{id}")
-    public MemberModel update(@PathVariable String id, @RequestBody MemberModel updatedMember) {
-        MemberModel oldmember = memberRepository.findById(id).get();
-        oldmember.setName(updatedMember.getName());
-        oldmember.setBalance(updatedMember.getBalance());
-        oldmember.setPhone(updatedMember.getPhone());
-        MemberModel savedMember = memberRepository.save(oldmember);
-        return savedMember;
+    public ResponseEntity<MemberModel> update(@PathVariable String id, @RequestBody MemberModel member) throws IdNotPresentException {
+        MemberModel updatedMember = memberService.updateMember(id, member);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedMember);
     }
 
     @DeleteMapping(path = "/{id}")
-    public void delete(@PathVariable String id) {
-        memberRepository.deleteById(id);
+    public ResponseEntity<Void> delete(@PathVariable String id) throws IdNotPresentException {
+        memberService.deleteMember(id);
+        return ResponseEntity.noContent().build();
     }
 }
