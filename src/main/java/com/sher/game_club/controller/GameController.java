@@ -34,7 +34,7 @@ public class GameController {
 
     @GetMapping(path = "/{id}")
     public GameModel findById(@PathVariable String id) {
-        return gameRepository.findById(id).orElse(null);
+        return gameRepository.findById(id).get();
     }
 
     @PutMapping(path = "/{id}")
