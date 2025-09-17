@@ -1,6 +1,5 @@
 package com.sher.game_club.controller;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,42 +12,42 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.sher.game_club.model.GameModel;
-import com.sher.game_club.repository.GameRepository;
+import com.sher.game_club.exceptions.IdNotPresentException;
+import com.sher.game_club.services.GameService;
 
 @RestController
 @RequestMapping("/games")
 public class GameController {
     @Autowired
-    private GameRepository gameRepository;
+    private GameService gameService;
 
     @PostMapping
-    public GameModel create(@RequestBody GameModel game) {
-        game.setId(null);
-        return gameRepository.save(game);
+    public ResponseEntity<GameModel> create(@RequestBody GameModel game) {
+        GameModel savedGame = gameService.create(game);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedGame);
     }
 
     @GetMapping
-    public List<GameModel> getAll() {
-        return gameRepository.findAll();
+    public ResponseEntity<List<GameModel>> findAll() {
+        List<GameModel> games = gameService.findAll();
+        return ResponseEntity.status(HttpStatus.OK).body(games);
     }
 
     @GetMapping(path = "/{id}")
-    public GameModel findById(@PathVariable String id) {
-        return gameRepository.findById(id).get();
+    public ResponseEntity<GameModel> findById(@PathVariable String id) throws IdNotPresentException {
+        GameModel game = gameService.findById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(game);
     }
 
     @PutMapping(path = "/{id}")
-    public GameModel update(@PathVariable String id, @RequestBody GameModel updatedGame) {
-        GameModel oldgame = gameRepository.findById(id).get();
-        oldgame.setName(updatedGame.getName());
-        oldgame.setDescription(updatedGame.getDescription());
-        oldgame.setPrice(updatedGame.getPrice());
-        GameModel savedGame = gameRepository.save(oldgame);
-        return savedGame;
+    public ResponseEntity<GameModel> update(@PathVariable String id, @RequestBody GameModel game) throws IdNotPresentException {
+        GameModel updatedGame = gameService.updateGame(id, game);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedGame);
     }
 
     @DeleteMapping(path = "/{id}")
-    public void delete(@PathVariable String id) {
-        gameRepository.deleteById(id);
+    public ResponseEntity<Void> delete(@PathVariable String id) throws IdNotPresentException {
+        gameService.deleteGame(id);
+        return ResponseEntity.noContent().build();
     }
 }
