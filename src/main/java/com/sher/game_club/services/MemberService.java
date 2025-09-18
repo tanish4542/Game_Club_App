@@ -17,6 +17,9 @@ public class MemberService {
 
     public MemberModel create(MemberModel member) {
         member.setId(null);
+        if(member.getBalance() == null) {
+            member.setBalance(0.0);
+        }
         return memberRepository.save(member);
     }
 

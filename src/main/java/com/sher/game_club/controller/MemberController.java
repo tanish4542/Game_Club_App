@@ -1,8 +1,5 @@
 package com.sher.game_club.controller;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.sher.game_club.model.MemberModel;
+import com.sher.game_club.model.RechargeModel;
+import com.sher.game_club.model.TransactionModel;
 import com.sher.game_club.exceptions.IdNotPresentException;
 import com.sher.game_club.services.MemberService;
+import com.sher.game_club.services.RechargeService;
+import com.sher.game_club.services.TransactionService;
 
 
 @RestController
@@ -24,7 +25,12 @@ import com.sher.game_club.services.MemberService;
 public class MemberController {
     @Autowired
     private MemberService memberService;
-    private final static Logger log = LoggerFactory.getLogger(MemberController.class);
+    
+    @Autowired
+    private RechargeService rechargeService;
+    
+    @Autowired
+    private TransactionService transactionService;
 
     @PostMapping
     public ResponseEntity<MemberModel> create(@RequestBody MemberModel member) {
@@ -61,5 +67,17 @@ public class MemberController {
     public ResponseEntity<Void> delete(@PathVariable String id) throws IdNotPresentException {
         memberService.deleteMember(id);
         return ResponseEntity.noContent().build();
+    }
+    
+    @GetMapping(path = "/{id}/recharges")
+    public ResponseEntity<List<RechargeModel>> getMemberRecharges(@PathVariable String id) {
+        List<RechargeModel> recharges = rechargeService.findByMemberId(id);
+        return ResponseEntity.status(HttpStatus.OK).body(recharges);
+    }
+    
+    @GetMapping(path = "/{id}/transactions")
+    public ResponseEntity<List<TransactionModel>> getMemberTransactions(@PathVariable String id) {
+        List<TransactionModel> transactions = transactionService.findByMemberId(id);
+        return ResponseEntity.status(HttpStatus.OK).body(transactions);
     }
 }
