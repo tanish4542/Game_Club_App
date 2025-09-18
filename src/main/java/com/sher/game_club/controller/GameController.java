@@ -20,15 +20,18 @@ import com.sher.game_club.services.GameService;
 public class GameController {
     @Autowired
     private GameService gameService;
-
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(GameController.class);
+    
     @PostMapping
     public ResponseEntity<GameModel> create(@RequestBody GameModel game) {
+        log.info("Creating game: {}", game);
         GameModel savedGame = gameService.create(game);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedGame);
     }
 
     @GetMapping
     public ResponseEntity<List<GameModel>> findAll() {
+        log.info("Retrieving all games");
         List<GameModel> games = gameService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(games);
     }
