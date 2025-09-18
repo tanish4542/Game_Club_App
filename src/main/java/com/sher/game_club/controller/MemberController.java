@@ -1,5 +1,8 @@
 package com.sher.game_club.controller;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +18,13 @@ import com.sher.game_club.model.MemberModel;
 import com.sher.game_club.exceptions.IdNotPresentException;
 import com.sher.game_club.services.MemberService;
 
+
 @RestController
 @RequestMapping("/members")
 public class MemberController {
     @Autowired
     private MemberService memberService;
+    private final static Logger log = LoggerFactory.getLogger(MemberController.class);
 
     @PostMapping
     public ResponseEntity<MemberModel> create(@RequestBody MemberModel member) {
@@ -29,6 +34,7 @@ public class MemberController {
 
     @GetMapping
     public ResponseEntity<List<MemberModel>> findAll() {
+        
         List<MemberModel> members = memberService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(members);
     }
