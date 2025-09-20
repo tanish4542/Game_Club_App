@@ -5,6 +5,7 @@ import { collectionAPI, transactionAPI, rechargeAPI, gameAPI, memberAPI } from '
 import Header from '../components/Header';
 import TransactionsTable from '../components/TransactionsTable';
 import RechargesTable from '../components/RechargesTable';
+import GameManagement from '../components/GameManagement';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { getTodayDateString } from '../utils/date';
 
@@ -37,8 +38,8 @@ const AdminDashboard = () => {
         membersResponse
       ] = await Promise.all([
         collectionAPI.getByDay(today).catch(() => ({ data: { amount: 0 } })),
-        transactionAPI.getAll().catch(() => ({ data: [] })),
-        rechargeAPI.getAll().catch(() => ({ data: [] })),
+        transactionAPI.getAllWithNames().catch(() => ({ data: [] })),
+        rechargeAPI.getAllWithNames().catch(() => ({ data: [] })),
         gameAPI.getAll().catch(() => ({ data: [] })),
         memberAPI.getAll().catch(() => ({ data: [] }))
       ]);
@@ -56,16 +57,48 @@ const AdminDashboard = () => {
     }
   };
 
+  const refreshGames = async () => {
+    try {
+      const gamesResponse = await gameAPI.getAll();
+      setGames(gamesResponse.data);
+    } catch (error) {
+      console.error('Failed to refresh games:', error);
+    }
+  };
+
   const exportToCSV = (data, filename) => {
     if (!data || data.length === 0) {
       alert('No data to export');
       return;
     }
 
-    const headers = Object.keys(data[0]);
+    let csvData = data;
+    
+    // For transactions, create a custom CSV with readable names
+    if (filename === 'transactions.csv') {
+      csvData = data.map(transaction => ({
+        'Transaction ID': transaction.id,
+        'Member Name': transaction.memberName || 'Unknown Member',
+        'Game Name': transaction.gameName || 'Unknown Game',
+        'Amount': transaction.amount,
+        'Date': new Date(transaction.dateTime).toLocaleString()
+      }));
+    }
+    
+    // For recharges, create a custom CSV with readable names
+    if (filename === 'recharges.csv') {
+      csvData = data.map(recharge => ({
+        'Recharge ID': recharge.id,
+        'Member Name': recharge.memberName || 'Unknown Member',
+        'Amount': recharge.amount,
+        'Date': new Date(recharge.dateTime).toLocaleString()
+      }));
+    }
+
+    const headers = Object.keys(csvData[0]);
     const csvContent = [
       headers.join(','),
-      ...data.map(row => headers.map(header => `"${row[header] || ''}"`).join(','))
+      ...csvData.map(row => headers.map(header => `"${row[header] || ''}"`).join(','))
     ].join('\n');
 
     const blob = new Blob([csvContent], { type: 'text/csv' });
@@ -231,6 +264,15 @@ const AdminDashboard = () => {
             <RechargesTable
               recharges={recharges.slice(0, 10)}
               showMemberName={true}
+            />
+          </div>
+
+          {/* Game Management */}
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Game Management</h2>
+            <GameManagement
+              games={games}
+              onGamesUpdate={refreshGames}
             />
           </div>
         </div>

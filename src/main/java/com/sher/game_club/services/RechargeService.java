@@ -3,6 +3,7 @@ package com.sher.game_club.services;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import com.sher.game_club.exceptions.IdNotPresentException;
 import com.sher.game_club.model.RechargeModel;
 import com.sher.game_club.model.MemberModel;
 import com.sher.game_club.repository.RechargeRepository;
+import com.sher.game_club.dto.RechargeDTO;
 
 @Service
 public class RechargeService {
@@ -79,6 +81,46 @@ public class RechargeService {
     // Find recharges by member
     public List<RechargeModel> findByMemberId(String memberId) {
         return rechargeRepository.findByMemberId(memberId);
+    }
+    
+    // Helper method to convert RechargeModel to RechargeDTO with member name
+    private RechargeDTO convertToDTO(RechargeModel recharge) {
+        try {
+            MemberModel member = memberService.findById(recharge.getMemberId());
+            
+            return new RechargeDTO(
+                recharge.getId(),
+                recharge.getMemberId(),
+                member.getName(),
+                recharge.getAmount(),
+                recharge.getDateTime()
+            );
+        } catch (IdNotPresentException e) {
+            // If member not found, return with "Unknown" name
+            return new RechargeDTO(
+                recharge.getId(),
+                recharge.getMemberId(),
+                "Unknown Member",
+                recharge.getAmount(),
+                recharge.getDateTime()
+            );
+        }
+    }
+    
+    // Get all recharges with member names
+    public List<RechargeDTO> findAllWithNames() {
+        List<RechargeModel> recharges = rechargeRepository.findAll();
+        return recharges.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+    
+    // Get recharges by member ID with names
+    public List<RechargeDTO> findByMemberIdWithNames(String memberId) {
+        List<RechargeModel> recharges = rechargeRepository.findByMemberId(memberId);
+        return recharges.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
     
 }

@@ -20,31 +20,22 @@ const Transactions = () => {
   const loadTransactions = async () => {
     try {
       setLoading(true);
-      const [transactionsResponse, gamesResponse, membersResponse] = await Promise.all([
-        transactionAPI.getAll().catch(() => ({ data: [] })),
+      
+      let transactionsResponse;
+      if (isMember) {
+        // For members, get their transactions with names
+        transactionsResponse = await memberAPI.getTransactionsWithNames(user.id).catch(() => ({ data: [] }));
+      } else {
+        // For admins, get all transactions with names
+        transactionsResponse = await transactionAPI.getAllWithNames().catch(() => ({ data: [] }));
+      }
+
+      const [gamesResponse, membersResponse] = await Promise.all([
         gameAPI.getAll().catch(() => ({ data: [] })),
         memberAPI.getAll().catch(() => ({ data: [] }))
       ]);
 
-      let allTransactions = transactionsResponse.data;
-      
-      // If member, filter to only their transactions
-      if (isMember) {
-        allTransactions = allTransactions.filter(t => t.memberId === user.id);
-      }
-
-      // Add member names to transactions for admin view
-      if (!isMember) {
-        allTransactions = allTransactions.map(transaction => {
-          const member = membersResponse.data.find(m => m.id === transaction.memberId);
-          return {
-            ...transaction,
-            memberName: member ? member.name : 'Unknown Member'
-          };
-        });
-      }
-
-      setTransactions(allTransactions);
+      setTransactions(transactionsResponse.data);
       setGames(gamesResponse.data);
       setMembers(membersResponse.data);
     } catch (error) {

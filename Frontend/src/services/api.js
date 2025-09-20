@@ -47,7 +47,9 @@ export const memberAPI = {
   update: (id, memberData) => api.put(`/members/${id}`, memberData),
   delete: (id) => api.delete(`/members/${id}`),
   getRecharges: (id) => api.get(`/members/${id}/recharges`),
+  getRechargesWithNames: (id) => api.get(`/members/${id}/recharges/with-names`),
   getTransactions: (id) => api.get(`/members/${id}/transactions`),
+  getTransactionsWithNames: (id) => api.get(`/members/${id}/transactions/with-names`),
   getAll: () => api.get('/members'),
 };
 
@@ -64,18 +66,22 @@ export const gameAPI = {
 export const rechargeAPI = {
   create: (rechargeData) => api.post('/recharges', rechargeData),
   getAll: () => api.get('/recharges'),
+  getAllWithNames: () => api.get('/recharges/with-names'),
   getById: (id) => api.get(`/recharges/${id}`),
   update: (id, rechargeData) => api.put(`/recharges/${id}`, rechargeData),
   delete: (id) => api.delete(`/recharges/${id}`),
+  getByMemberIdWithNames: (memberId) => api.get(`/recharges/member/${memberId}/with-names`),
 };
 
 // Transaction API functions
 export const transactionAPI = {
   create: (transactionData) => api.post('/transactions', transactionData),
   getAll: () => api.get('/transactions'),
+  getAllWithNames: () => api.get('/transactions/with-names'),
   getById: (id) => api.get(`/transactions/${id}`),
   update: (id, transactionData) => api.put(`/transactions/${id}`, transactionData),
   delete: (id) => api.delete(`/transactions/${id}`),
+  getByMemberIdWithNames: (memberId) => api.get(`/transactions/member/${memberId}/with-names`),
 };
 
 // Collection API functions

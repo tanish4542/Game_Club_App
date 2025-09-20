@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.sher.game_club.model.RechargeModel;
+import com.sher.game_club.dto.RechargeDTO;
 import com.sher.game_club.exceptions.IdNotPresentException;
 import com.sher.game_club.services.RechargeService;
 
@@ -49,5 +50,19 @@ public class RechargeController {
     public ResponseEntity<Void> delete(@PathVariable String id) throws IdNotPresentException {
         rechargeService.deleteRecharge(id);
         return ResponseEntity.noContent().build();
+    }
+    
+    // Get all recharges with member names
+    @GetMapping(path = "/with-names")
+    public ResponseEntity<List<RechargeDTO>> findAllWithNames() {
+        List<RechargeDTO> recharges = rechargeService.findAllWithNames();
+        return ResponseEntity.status(HttpStatus.OK).body(recharges);
+    }
+    
+    // Get recharges by member ID with names
+    @GetMapping(path = "/member/{memberId}/with-names")
+    public ResponseEntity<List<RechargeDTO>> findByMemberIdWithNames(@PathVariable String memberId) {
+        List<RechargeDTO> recharges = rechargeService.findByMemberIdWithNames(memberId);
+        return ResponseEntity.status(HttpStatus.OK).body(recharges);
     }
 }

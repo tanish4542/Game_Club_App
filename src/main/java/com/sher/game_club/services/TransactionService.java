@@ -3,6 +3,7 @@ package com.sher.game_club.services;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import com.sher.game_club.model.TransactionModel;
 import com.sher.game_club.model.MemberModel;
 import com.sher.game_club.model.GameModel;
 import com.sher.game_club.repository.TransactionRepository;
+import com.sher.game_club.dto.TransactionDTO;
 
 @Service
 public class TransactionService {
@@ -88,6 +90,59 @@ public class TransactionService {
     // Find transactions by date range
     public List<TransactionModel> findByDateRange(Date startDate, Date endDate) {
         return transactionRepository.findByDateTimeBetween(startDate, endDate);
+    }
+    
+    // Helper method to convert TransactionModel to TransactionDTO with names
+    private TransactionDTO convertToDTO(TransactionModel transaction) {
+        try {
+            MemberModel member = memberService.findById(transaction.getMemberId());
+            GameModel game = gameService.findById(transaction.getGameId());
+            
+            return new TransactionDTO(
+                transaction.getId(),
+                transaction.getMemberId(),
+                member.getName(),
+                transaction.getGameId(),
+                game.getName(),
+                transaction.getAmount(),
+                transaction.getDateTime()
+            );
+        } catch (IdNotPresentException e) {
+            // If member or game not found, return with "Unknown" names
+            return new TransactionDTO(
+                transaction.getId(),
+                transaction.getMemberId(),
+                "Unknown Member",
+                transaction.getGameId(),
+                "Unknown Game",
+                transaction.getAmount(),
+                transaction.getDateTime()
+            );
+        }
+    }
+    
+    // Get all transactions with member and game names
+    public List<TransactionDTO> findAllWithNames() {
+        List<TransactionModel> transactions = transactionRepository.findAll();
+        return transactions.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+    
+    // Get transactions by member ID with names
+    public List<TransactionDTO> findByMemberIdWithNames(String memberId) {
+        List<TransactionModel> transactions = transactionRepository.findByMemberId(memberId);
+        return transactions.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+    
+    // Get transactions by date range with names
+    public List<TransactionDTO> findByDateRangeWithNames(Date startDate, Date endDate) {
+        List<TransactionModel> transactions = transactionRepository.findByDateTimeBetween(startDate, endDate);
+        return transactions.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
     
 }

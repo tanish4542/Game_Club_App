@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sher.game_club.model.MemberModel;
 import com.sher.game_club.model.RechargeModel;
 import com.sher.game_club.model.TransactionModel;
+import com.sher.game_club.dto.TransactionDTO;
+import com.sher.game_club.dto.RechargeDTO;
 import com.sher.game_club.exceptions.IdNotPresentException;
 import com.sher.game_club.services.MemberService;
 import com.sher.game_club.services.RechargeService;
@@ -75,9 +77,21 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(recharges);
     }
     
+    @GetMapping(path = "/{id}/recharges/with-names")
+    public ResponseEntity<List<RechargeDTO>> getMemberRechargesWithNames(@PathVariable String id) {
+        List<RechargeDTO> recharges = rechargeService.findByMemberIdWithNames(id);
+        return ResponseEntity.status(HttpStatus.OK).body(recharges);
+    }
+    
     @GetMapping(path = "/{id}/transactions")
     public ResponseEntity<List<TransactionModel>> getMemberTransactions(@PathVariable String id) {
         List<TransactionModel> transactions = transactionService.findByMemberId(id);
+        return ResponseEntity.status(HttpStatus.OK).body(transactions);
+    }
+    
+    @GetMapping(path = "/{id}/transactions/with-names")
+    public ResponseEntity<List<TransactionDTO>> getMemberTransactionsWithNames(@PathVariable String id) {
+        List<TransactionDTO> transactions = transactionService.findByMemberIdWithNames(id);
         return ResponseEntity.status(HttpStatus.OK).body(transactions);
     }
 }

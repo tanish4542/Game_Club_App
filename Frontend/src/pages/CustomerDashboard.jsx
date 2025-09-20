@@ -27,12 +27,12 @@ const CustomerDashboard = () => {
       setLoading(true);
       const [gamesResponse, transactionsResponse, memberResponse] = await Promise.all([
         gameAPI.getAll(),
-        transactionAPI.getAll().catch(() => ({ data: [] })), // Handle case where no transactions exist
+        memberAPI.getTransactionsWithNames(user.id).catch(() => ({ data: [] })), // Use new API with names
         memberAPI.getById(user.id)
       ]);
 
       setGames(gamesResponse.data);
-      setTransactions(transactionsResponse.data.filter(t => t.memberId === user.id));
+      setTransactions(transactionsResponse.data);
       
       // Update user data with latest balance
       if (memberResponse.data) {

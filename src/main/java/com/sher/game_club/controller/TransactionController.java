@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.sher.game_club.model.TransactionModel;
+import com.sher.game_club.dto.TransactionDTO;
 import com.sher.game_club.exceptions.IdNotPresentException;
 import com.sher.game_club.services.TransactionService;
 
@@ -49,5 +50,19 @@ public class TransactionController {
     public ResponseEntity<Void> delete(@PathVariable String id) throws IdNotPresentException {
         transactionService.deleteTransaction(id);
         return ResponseEntity.noContent().build();
+    }
+    
+    // Get all transactions with member and game names
+    @GetMapping(path = "/with-names")
+    public ResponseEntity<List<TransactionDTO>> findAllWithNames() {
+        List<TransactionDTO> transactions = transactionService.findAllWithNames();
+        return ResponseEntity.status(HttpStatus.OK).body(transactions);
+    }
+    
+    // Get transactions by member ID with names
+    @GetMapping(path = "/member/{memberId}/with-names")
+    public ResponseEntity<List<TransactionDTO>> findByMemberIdWithNames(@PathVariable String memberId) {
+        List<TransactionDTO> transactions = transactionService.findByMemberIdWithNames(memberId);
+        return ResponseEntity.status(HttpStatus.OK).body(transactions);
     }
 }

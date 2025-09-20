@@ -18,7 +18,12 @@ const TransactionsTable = ({ transactions, games, showMemberName = false }) => {
     );
   }
 
-  const getGameName = (gameId) => {
+  const getGameName = (gameId, gameName) => {
+    // If gameName is provided (from DTO), use it directly
+    if (gameName) {
+      return gameName;
+    }
+    // Fallback to finding by ID
     const game = games?.find(g => g.id === gameId);
     return game ? game.name : 'Unknown Game';
   };
@@ -66,7 +71,7 @@ const TransactionsTable = ({ transactions, games, showMemberName = false }) => {
                   </td>
                 )}
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {getGameName(transaction.gameId)}
+                  {getGameName(transaction.gameId, transaction.gameName)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                   ₹{transaction.amount}

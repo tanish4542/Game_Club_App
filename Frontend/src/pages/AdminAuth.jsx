@@ -5,7 +5,7 @@ import { adminAPI } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 const AdminAuth = () => {
-  const [loginType, setLoginType] = useState('phone'); // 'phone' or 'username'
+  const [isSignup, setIsSignup] = useState(false);
   const [phone, setPhone] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -18,14 +18,16 @@ const AdminAuth = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (loginType === 'phone') {
-      if (!phone.trim() || !password.trim()) {
-        setError('Please enter both phone number and password');
+    if (isSignup) {
+      // Signup logic
+      if (!phone.trim() || !username.trim() || !password.trim()) {
+        setError('Please fill in all fields');
         return;
       }
     } else {
-      if (!username.trim() || !password.trim()) {
-        setError('Please enter both username and password');
+      // Login logic
+      if (!phone.trim() || !password.trim()) {
+        setError('Please enter both phone number and password');
         return;
       }
     }
@@ -34,24 +36,37 @@ const AdminAuth = () => {
     setError('');
 
     try {
-      let response;
-      if (loginType === 'phone') {
-        console.log('Admin login by phone:', phone.trim());
-        response = await adminAPI.loginByPhone(phone.trim(), password.trim());
+      if (isSignup) {
+        console.log('Admin signup:', { phone: phone.trim(), username: username.trim() });
+        const adminData = {
+          phone: phone.trim(),
+          username: username.trim(),
+          password: password.trim()
+        };
+        const response = await adminAPI.create(adminData);
+        const admin = response.data;
+        console.log('Admin created:', admin);
+        
+        // Log in the new admin
+        login(admin, 'admin');
+        navigate('/dashboard/admin');
       } else {
-        console.log('Admin login by username:', username.trim());
-        response = await adminAPI.login(username.trim(), password.trim());
+        console.log('Admin login by phone:', phone.trim());
+        const response = await adminAPI.loginByPhone(phone.trim(), password.trim());
+        const admin = response.data;
+        console.log('Admin found:', admin);
+        
+        // Log in the admin
+        login(admin, 'admin');
+        navigate('/dashboard/admin');
       }
-      
-      const admin = response.data;
-      console.log('Admin found:', admin);
-      
-      // Log in the admin
-      login(admin, 'admin');
-      navigate('/dashboard/admin');
     } catch (error) {
-      console.error('Admin login error:', error);
-      setError(`Invalid ${loginType === 'phone' ? 'phone number or' : 'username or'} password`);
+      console.error('Admin auth error:', error);
+      if (isSignup) {
+        setError('Error creating admin account. Phone number might already exist.');
+      } else {
+        setError('Invalid phone number or password');
+      }
     } finally {
       setLoading(false);
     }
@@ -61,10 +76,13 @@ const AdminAuth = () => {
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Admin Login
+          {isSignup ? 'Admin Signup' : 'Admin Login'}
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
-          Enter your admin credentials to continue
+          {isSignup 
+            ? 'Create a new admin account'
+            : 'Enter your phone number and password to continue'
+          }
         </p>
       </div>
 
@@ -77,52 +95,53 @@ const AdminAuth = () => {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Login Type Toggle */}
+            {/* Signup/Login Toggle */}
             <div className="flex space-x-4">
               <button
                 type="button"
-                onClick={() => setLoginType('phone')}
+                onClick={() => setIsSignup(false)}
                 className={`flex-1 py-2 px-4 rounded-md text-sm font-medium ${
-                  loginType === 'phone'
+                  !isSignup
                     ? 'bg-green-100 text-green-800 border border-green-300'
                     : 'bg-gray-100 text-gray-600 border border-gray-300'
                 }`}
               >
-                Phone Login
+                Login
               </button>
               <button
                 type="button"
-                onClick={() => setLoginType('username')}
+                onClick={() => setIsSignup(true)}
                 className={`flex-1 py-2 px-4 rounded-md text-sm font-medium ${
-                  loginType === 'username'
+                  isSignup
                     ? 'bg-green-100 text-green-800 border border-green-300'
                     : 'bg-gray-100 text-gray-600 border border-gray-300'
                 }`}
               >
-                Username Login
+                Signup
               </button>
             </div>
 
-            {/* Phone or Username Input */}
-            {loginType === 'phone' ? (
-              <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-                  Phone Number
-                </label>
-                <div className="mt-1">
-                  <input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    required
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                    placeholder="Enter your phone number"
-                  />
-                </div>
+            {/* Phone Number Input */}
+            <div>
+              <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+                Phone Number
+              </label>
+              <div className="mt-1">
+                <input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  required
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                  placeholder="Enter your phone number"
+                />
               </div>
-            ) : (
+            </div>
+
+            {/* Username Input (only for signup) */}
+            {isSignup && (
               <div>
                 <label htmlFor="username" className="block text-sm font-medium text-gray-700">
                   Username
@@ -132,7 +151,7 @@ const AdminAuth = () => {
                     id="username"
                     name="username"
                     type="text"
-                    required
+                    required={isSignup}
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
@@ -166,7 +185,7 @@ const AdminAuth = () => {
                 disabled={loading}
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? <LoadingSpinner size="small" /> : 'Sign In'}
+                {loading ? <LoadingSpinner size="small" /> : (isSignup ? 'Create Account' : 'Sign In')}
               </button>
             </div>
           </form>
@@ -182,8 +201,8 @@ const AdminAuth = () => {
 
           <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-md">
             <p className="text-sm text-blue-800">
-              <strong>Note:</strong> You can login using either your phone number or username. 
-              Phone login uses secure backend authentication.
+              <strong>Note:</strong> Admin login is only available through phone number and password. 
+              Use signup to create a new admin account.
             </p>
           </div>
         </div>
