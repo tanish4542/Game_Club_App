@@ -73,21 +73,30 @@ const AdminAuth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-pink-gradient flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        {/* Large Admin Icon */}
+        <div className="flex justify-center mb-6">
+          <div className="w-32 h-32 bg-gradient-to-r from-green-300 to-green-400 rounded-full flex items-center justify-center shadow-xl">
+            <svg className="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+          </div>
+        </div>
+        
+        <h2 className="mt-6 text-center text-3xl font-extrabold bg-gradient-to-r from-green-400 to-green-500 bg-clip-text text-transparent">
           {isSignup ? 'Admin Signup' : 'Admin Login'}
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
           {isSignup 
-            ? 'Create a new admin account'
-            : 'Enter your phone number and password to continue'
+            ? 'Create account'
+            : 'Enter credentials'
           }
         </p>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <div className="bg-card-gradient py-8 px-4 shadow-lg sm:rounded-xl sm:px-10 border border-pink-100">
           {error && (
             <div className="mb-4 bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md">
               {error}

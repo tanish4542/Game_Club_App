@@ -4,24 +4,31 @@ const GameCard = ({ game, onPlay, userBalance, isPlaying }) => {
   const canPlay = userBalance >= game.price;
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-lg transition-shadow">
+    <div className="bg-card-gradient rounded-xl shadow-lg p-6 border border-pink-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
       <div className="flex justify-between items-start mb-4">
-        <h3 className="text-lg font-semibold text-gray-900">{game.name}</h3>
-        <span className="bg-primary-100 text-primary-800 px-2 py-1 rounded-full text-sm font-medium">
+        <div className="flex items-center space-x-3">
+          <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-pink-200 to-purple-200 rounded-lg">
+            <svg className="w-5 h-5 text-pink-600" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M17.5 6C15.57 6 14 7.57 14 9.5s1.57 3.5 3.5 3.5 3.5-1.57 3.5-3.5-1.57-3.5-3.5-3.5zm0 5c-.83 0-1.5-.67-1.5-1.5S16.67 8 17.5 8s1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM6.5 9C4.57 9 3 10.57 3 12.5s1.57 3.5 3.5 3.5 3.5-1.57 3.5-3.5-1.57-3.5-3.5-3.5zm0 5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+            </svg>
+          </div>
+          <h3 className="text-lg font-semibold text-gray-800">{game.name}</h3>
+        </div>
+        <span className="bg-gradient-to-r from-pink-100 to-purple-100 text-pink-700 px-3 py-1 rounded-full text-sm font-bold border border-pink-200">
           ₹{game.price}
         </span>
       </div>
       
       {game.description && (
-        <p className="text-gray-600 mb-4">{game.description}</p>
+        <p className="text-gray-600 mb-4 text-sm">{game.description}</p>
       )}
       
       <button
         onClick={() => onPlay(game)}
         disabled={!canPlay || isPlaying}
-        className={`w-full py-2 px-4 rounded-md font-medium transition-colors ${
+        className={`w-full py-3 px-4 rounded-lg font-semibold transition-all duration-200 ${
           canPlay && !isPlaying
-            ? 'bg-primary-500 hover:bg-primary-600 text-white'
+            ? 'bg-gradient-to-r from-pink-300 to-purple-300 hover:from-pink-400 hover:to-purple-400 text-white shadow-md hover:shadow-lg transform hover:scale-105'
             : 'bg-gray-300 text-gray-500 cursor-not-allowed'
         }`}
       >
@@ -31,14 +38,14 @@ const GameCard = ({ game, onPlay, userBalance, isPlaying }) => {
             Playing...
           </div>
         ) : canPlay ? (
-          'Play Game'
+          '🎮 Play Game'
         ) : (
-          'Insufficient Balance'
+          '❌ Insufficient Balance'
         )}
       </button>
       
       {!canPlay && (
-        <p className="text-red-500 text-sm mt-2 text-center">
+        <p className="text-red-500 text-sm mt-2 text-center font-medium">
           Need ₹{game.price - userBalance} more
         </p>
       )}

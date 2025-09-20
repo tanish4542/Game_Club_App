@@ -48,7 +48,7 @@ const Collections = () => {
           </div>
 
           {/* Date Selector */}
-          <div className="bg-white shadow rounded-lg p-6 mb-6">
+          <div className="bg-card-gradient shadow-lg rounded-xl p-6 mb-6 border border-pink-100">
             <div className="flex items-center space-x-4">
               <label htmlFor="date" className="block text-sm font-medium text-gray-700">
                 Select Date:
@@ -70,7 +70,7 @@ const Collections = () => {
           )}
 
           {/* Collection Display */}
-          <div className="bg-white shadow rounded-lg p-6">
+          <div className="bg-card-gradient shadow-lg rounded-xl p-6 border border-pink-100">
             {loading ? (
               <div className="flex justify-center items-center py-8">
                 <LoadingSpinner size="large" />
@@ -80,11 +80,11 @@ const Collections = () => {
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">
                   Collection for {new Date(selectedDate).toLocaleDateString()}
                 </h2>
-                <div className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-lg p-8 text-white">
+                <div className="bg-gradient-to-r from-pink-300 to-purple-300 rounded-xl p-8 text-gray-800 shadow-lg">
                   <div className="text-4xl font-bold">
                     ₹{collection?.amount || 0}
                   </div>
-                  <div className="text-primary-100 mt-2">
+                  <div className="text-gray-600 mt-2">
                     Total Recharges
                   </div>
                 </div>

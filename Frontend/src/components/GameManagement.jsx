@@ -114,22 +114,22 @@ const GameManagement = ({ games, onGamesUpdate }) => {
   };
 
   return (
-    <div className="bg-white shadow overflow-hidden sm:rounded-md">
+    <div className="bg-card-gradient shadow-lg overflow-hidden sm:rounded-xl border border-pink-100">
       <div className="px-4 py-5 sm:px-6">
         <div className="flex justify-between items-center">
           <div>
-            <h3 className="text-lg leading-6 font-medium text-gray-900">
-              Game Management
+            <h3 className="text-lg leading-6 font-semibold text-gray-900">
+              🎮 Game Management
             </h3>
-            <p className="mt-1 max-w-2xl text-sm text-gray-500">
+            <p className="mt-1 max-w-2xl text-sm text-gray-600">
               Add, edit, or delete games
             </p>
           </div>
           <button
             onClick={() => setShowAddForm(true)}
-            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md font-medium transition-colors"
+            className="bg-gradient-to-r from-green-300 to-green-400 hover:from-green-400 hover:to-green-500 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
           >
-            Add New Game
+            ➕ Add New Game
           </button>
         </div>
       </div>
@@ -207,14 +207,14 @@ const GameManagement = ({ games, onGamesUpdate }) => {
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-gradient-to-r from-green-300 to-green-400 hover:from-green-400 hover:to-green-500 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               >
-                {loading ? <LoadingSpinner size="small" /> : (editingGame ? 'Update Game' : 'Create Game')}
+                {loading ? <LoadingSpinner size="small" /> : (editingGame ? '🔄 Update Game' : '➕ Create Game')}
               </button>
               <button
                 type="button"
                 onClick={handleCancel}
-                className="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-md font-medium transition-colors"
+                className="bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-lg font-semibold transition-all duration-200"
               >
                 Cancel
               </button>

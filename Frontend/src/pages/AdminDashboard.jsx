@@ -45,8 +45,19 @@ const AdminDashboard = () => {
       ]);
 
       setCollections(collectionsResponse.data);
-      setTransactions(transactionsResponse.data);
-      setRecharges(rechargesResponse.data);
+      
+      // Sort transactions by date (newest first)
+      const sortedTransactions = transactionsResponse.data.sort((a, b) => 
+        new Date(b.dateTime) - new Date(a.dateTime)
+      );
+      setTransactions(sortedTransactions);
+      
+      // Sort recharges by date (newest first)
+      const sortedRecharges = rechargesResponse.data.sort((a, b) => 
+        new Date(b.dateTime) - new Date(a.dateTime)
+      );
+      setRecharges(sortedRecharges);
+      
       setGames(gamesResponse.data);
       setMembers(membersResponse.data);
     } catch (error) {
@@ -133,92 +144,104 @@ const AdminDashboard = () => {
             </div>
           )}
 
-          {/* Stats Cards */}
+          {/* Navigation Widgets */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div className="bg-white overflow-hidden shadow rounded-lg">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-green-500 rounded-md flex items-center justify-center">
-                      <span className="text-white font-bold">₹</span>
-                    </div>
-                  </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">
-                        Today's Collections
-                      </dt>
-                      <dd className="text-lg font-medium text-gray-900">
-                        ₹{collections?.amount || 0}
-                      </dd>
-                    </dl>
+            <button
+              onClick={() => navigate('/transactions')}
+              className="bg-card-gradient overflow-hidden shadow-lg rounded-xl border border-pink-100 transform hover:scale-105 transition-all duration-300 p-6 text-left hover:shadow-xl"
+            >
+              <div className="flex items-center">
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 bg-gradient-to-r from-pink-300 to-purple-300 rounded-xl flex items-center justify-center shadow-md">
+                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                    </svg>
                   </div>
                 </div>
-              </div>
-            </div>
-
-            <div className="bg-white overflow-hidden shadow rounded-lg">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-blue-500 rounded-md flex items-center justify-center">
-                      <span className="text-white font-bold">👥</span>
-                    </div>
-                  </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">
-                        Total Members
-                      </dt>
-                      <dd className="text-lg font-medium text-gray-900">
-                        {members.length}
-                      </dd>
-                    </dl>
-                  </div>
+                <div className="ml-5 w-0 flex-1">
+                  <dl>
+                    <dt className="text-sm font-semibold text-gray-600 truncate">
+                      View Transactions
+                    </dt>
+                    <dd className="text-lg font-bold text-gray-800">
+                      {transactions.length} Total
+                    </dd>
+                  </dl>
                 </div>
               </div>
-            </div>
+            </button>
 
-            <div className="bg-white overflow-hidden shadow rounded-lg">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-purple-500 rounded-md flex items-center justify-center">
-                      <span className="text-white font-bold">🎮</span>
-                    </div>
-                  </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">
-                        Total Games
-                      </dt>
-                      <dd className="text-lg font-medium text-gray-900">
-                        {games.length}
-                      </dd>
-                    </dl>
+            <button
+              onClick={() => navigate('/collections')}
+              className="bg-card-gradient overflow-hidden shadow-lg rounded-xl border border-pink-100 transform hover:scale-105 transition-all duration-300 p-6 text-left hover:shadow-xl"
+            >
+              <div className="flex items-center">
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 bg-gradient-to-r from-green-300 to-green-400 rounded-xl flex items-center justify-center shadow-md">
+                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
                   </div>
                 </div>
+                <div className="ml-5 w-0 flex-1">
+                  <dl>
+                    <dt className="text-sm font-semibold text-gray-600 truncate">
+                      View Collections
+                    </dt>
+                    <dd className="text-lg font-bold text-gray-800">
+                      ₹{collections?.amount || 0} Today
+                    </dd>
+                  </dl>
+                </div>
               </div>
-            </div>
+            </button>
 
-            <div className="bg-white overflow-hidden shadow rounded-lg">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-orange-500 rounded-md flex items-center justify-center">
-                      <span className="text-white font-bold">📊</span>
-                    </div>
+            <button
+              onClick={() => {
+                // Navigate to a recharges page (we'll need to create this)
+                alert('Recharges page coming soon!');
+              }}
+              className="bg-card-gradient overflow-hidden shadow-lg rounded-xl border border-pink-100 transform hover:scale-105 transition-all duration-300 p-6 text-left hover:shadow-xl"
+            >
+              <div className="flex items-center">
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 bg-gradient-to-r from-blue-300 to-blue-400 rounded-xl flex items-center justify-center shadow-md">
+                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A1.5 1.5 0 0 0 18.54 8H16c-.8 0-1.54.37-2.01.99L12 11l-1.99-2.01A2.5 2.5 0 0 0 8 8H5.46c-.8 0-1.54.37-2.01.99L.95 16.37 3.5 22H6v6h2v-6h4v6h2z"/>
+                    </svg>
                   </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">
-                        Total Transactions
-                      </dt>
-                      <dd className="text-lg font-medium text-gray-900">
-                        {transactions.length}
-                      </dd>
-                    </dl>
+                </div>
+                <div className="ml-5 w-0 flex-1">
+                  <dl>
+                    <dt className="text-sm font-semibold text-gray-600 truncate">
+                      View Members
+                    </dt>
+                    <dd className="text-lg font-bold text-gray-800">
+                      {members.length} Total
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+            </button>
+
+            <div className="bg-card-gradient overflow-hidden shadow-lg rounded-xl border border-pink-100 p-6">
+              <div className="flex items-center">
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 bg-gradient-to-r from-purple-300 to-purple-400 rounded-xl flex items-center justify-center shadow-md">
+                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M17.5 6C15.57 6 14 7.57 14 9.5s1.57 3.5 3.5 3.5 3.5-1.57 3.5-3.5-1.57-3.5-3.5-3.5zm0 5c-.83 0-1.5-.67-1.5-1.5S16.67 8 17.5 8s1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM6.5 9C4.57 9 3 10.57 3 12.5s1.57 3.5 3.5 3.5 3.5-1.57 3.5-3.5-1.57-3.5-3.5-3.5zm0 5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                    </svg>
                   </div>
+                </div>
+                <div className="ml-5 w-0 flex-1">
+                  <dl>
+                    <dt className="text-sm font-semibold text-gray-600 truncate">
+                      Total Games
+                    </dt>
+                    <dd className="text-lg font-bold text-gray-800">
+                      {games.length} Available
+                    </dd>
+                  </dl>
                 </div>
               </div>
             </div>
@@ -229,42 +252,17 @@ const AdminDashboard = () => {
             <div className="flex flex-wrap gap-4">
               <button
                 onClick={() => exportToCSV(transactions, 'transactions.csv')}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium transition-colors"
+                className="bg-gradient-to-r from-pink-300 to-purple-300 hover:from-pink-400 hover:to-purple-400 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
               >
-                Export Transactions CSV
+                📊 Export Transactions CSV
               </button>
               <button
                 onClick={() => exportToCSV(recharges, 'recharges.csv')}
-                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md font-medium transition-colors"
+                className="bg-gradient-to-r from-green-300 to-green-400 hover:from-green-400 hover:to-green-500 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
               >
-                Export Recharges CSV
-              </button>
-              <button
-                onClick={() => navigate('/collections')}
-                className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md font-medium transition-colors"
-              >
-                View Collections
+                💰 Export Recharges CSV
               </button>
             </div>
-          </div>
-
-          {/* Recent Transactions */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Recent Transactions</h2>
-            <TransactionsTable
-              transactions={transactions.slice(0, 10)}
-              games={games}
-              showMemberName={true}
-            />
-          </div>
-
-          {/* Recent Recharges */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Recent Recharges</h2>
-            <RechargesTable
-              recharges={recharges.slice(0, 10)}
-              showMemberName={true}
-            />
           </div>
 
           {/* Game Management */}

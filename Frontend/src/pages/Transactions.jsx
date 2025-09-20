@@ -35,7 +35,12 @@ const Transactions = () => {
         memberAPI.getAll().catch(() => ({ data: [] }))
       ]);
 
-      setTransactions(transactionsResponse.data);
+      // Sort transactions by date (newest first)
+      const sortedTransactions = transactionsResponse.data.sort((a, b) => 
+        new Date(b.dateTime) - new Date(a.dateTime)
+      );
+      setTransactions(sortedTransactions);
+      
       setGames(gamesResponse.data);
       setMembers(membersResponse.data);
     } catch (error) {

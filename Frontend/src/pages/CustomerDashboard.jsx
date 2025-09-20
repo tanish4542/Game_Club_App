@@ -32,7 +32,12 @@ const CustomerDashboard = () => {
       ]);
 
       setGames(gamesResponse.data);
-      setTransactions(transactionsResponse.data);
+      
+      // Sort transactions by date (newest first)
+      const sortedTransactions = transactionsResponse.data.sort((a, b) => 
+        new Date(b.dateTime) - new Date(a.dateTime)
+      );
+      setTransactions(sortedTransactions);
       
       // Update user data with latest balance
       if (memberResponse.data) {
@@ -115,15 +120,15 @@ const CustomerDashboard = () => {
             <div className="flex flex-col sm:flex-row gap-4">
               <button
                 onClick={handleRecharge}
-                className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-md font-medium transition-colors"
+                className="bg-gradient-to-r from-green-300 to-green-400 hover:from-green-400 hover:to-green-500 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
               >
-                Add Money
+                💰 Add Money
               </button>
               <button
                 onClick={() => navigate('/transactions')}
-                className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-md font-medium transition-colors"
+                className="bg-gradient-to-r from-pink-300 to-purple-300 hover:from-pink-400 hover:to-purple-400 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
               >
-                View All Transactions
+                📊 View All Transactions
               </button>
             </div>
           </div>
@@ -150,9 +155,9 @@ const CustomerDashboard = () => {
               <div className="mt-4 text-center">
                 <button
                   onClick={() => navigate('/transactions')}
-                  className="text-primary-600 hover:text-primary-700 font-medium"
+                  className="text-pink-500 hover:text-pink-600 font-semibold bg-pink-50 hover:bg-pink-100 px-4 py-2 rounded-lg transition-all duration-200"
                 >
-                  View All Transactions
+                  📊 View All Transactions
                 </button>
               </div>
             )}
