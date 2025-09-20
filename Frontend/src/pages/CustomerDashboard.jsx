@@ -89,7 +89,7 @@ const CustomerDashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800">
         <Header />
         <div className="flex justify-center items-center py-20">
           <LoadingSpinner size="xlarge" />
@@ -99,7 +99,7 @@ const CustomerDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800">
       <Header />
       
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
@@ -120,13 +120,13 @@ const CustomerDashboard = () => {
             <div className="flex flex-col sm:flex-row gap-4">
               <button
                 onClick={handleRecharge}
-                className="bg-gradient-to-r from-green-300 to-green-400 hover:from-green-400 hover:to-green-500 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
+                className="bg-gradient-to-r from-green-800 to-green-900 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 border border-green-700"
               >
                 💰 Add Money
               </button>
               <button
                 onClick={() => navigate('/transactions')}
-                className="bg-gradient-to-r from-pink-300 to-purple-300 hover:from-pink-400 hover:to-purple-400 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
+                className="bg-gradient-to-r from-pink-800 to-purple-800 hover:from-pink-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 border border-pink-700"
               >
                 📊 View All Transactions
               </button>
@@ -135,7 +135,7 @@ const CustomerDashboard = () => {
 
           {/* Games Section */}
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Available Games</h2>
+            <h2 className="text-2xl font-bold text-white mb-6">Available Games</h2>
             <GamesList
               games={games}
               onPlay={handlePlayGame}
@@ -146,7 +146,7 @@ const CustomerDashboard = () => {
 
           {/* Recent Transactions */}
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Recent Transactions</h2>
+            <h2 className="text-2xl font-bold text-white mb-6">Recent Transactions</h2>
             <TransactionsTable
               transactions={transactions.slice(0, 5)}
               games={games}

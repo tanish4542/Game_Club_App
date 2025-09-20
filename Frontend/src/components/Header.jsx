@@ -10,7 +10,7 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-white shadow-sm border-b">
+    <header className="bg-black shadow-sm border-b border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Left side - Game Controller Logo */}
@@ -27,7 +27,7 @@ const Header = () => {
           
           {user && (
             <div className="flex items-center space-x-4">
-              <div className="text-sm text-gray-700">
+              <div className="text-sm text-gray-300">
               {isMember && (
                 <span>
                   Welcome, <span className="font-medium">{user.name}</span>

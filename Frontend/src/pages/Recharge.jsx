@@ -58,16 +58,16 @@ const Recharge = () => {
   const quickAmounts = [100, 200, 500, 1000];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800">
       <Header />
       
       <div className="max-w-md mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <div className="bg-card-gradient py-8 px-4 shadow-lg sm:rounded-xl sm:px-10 border border-pink-100">
+        <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black py-8 px-4 shadow-lg sm:rounded-xl sm:px-10 border border-gray-700">
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 text-center">
+            <h2 className="text-2xl font-bold text-white text-center">
               Add Money
             </h2>
-            <p className="mt-2 text-center text-sm text-gray-600">
+            <p className="mt-2 text-center text-sm text-gray-300">
               Current Balance: ₹{user.balance || 0}
             </p>
           </div>

@@ -53,7 +53,7 @@ const Transactions = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800">
         <Header />
         <div className="flex justify-center items-center py-20">
           <LoadingSpinner size="xlarge" />
@@ -63,7 +63,7 @@ const Transactions = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800">
       <Header />
       
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
@@ -75,10 +75,10 @@ const Transactions = () => {
           )}
 
           <div className="mb-6">
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-3xl font-bold text-white">
               {isMember ? 'My Transactions' : 'All Transactions'}
             </h1>
-            <p className="mt-2 text-gray-600">
+            <p className="mt-2 text-gray-300">
               {isMember 
                 ? 'View your game transaction history'
                 : 'View all member transactions'

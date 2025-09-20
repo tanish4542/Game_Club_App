@@ -35,22 +35,22 @@ const Collections = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800">
       <Header />
       
       <div className="max-w-4xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           <div className="mb-6">
-            <h1 className="text-3xl font-bold text-gray-900">Daily Collections</h1>
-            <p className="mt-2 text-gray-600">
+            <h1 className="text-3xl font-bold text-white">Daily Collections</h1>
+            <p className="mt-2 text-gray-300">
               View collection totals for specific dates
             </p>
           </div>
 
           {/* Date Selector */}
-          <div className="bg-card-gradient shadow-lg rounded-xl p-6 mb-6 border border-pink-100">
+          <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black shadow-lg rounded-xl p-6 mb-6 border border-gray-700">
             <div className="flex items-center space-x-4">
-              <label htmlFor="date" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="date" className="block text-sm font-medium text-gray-300">
                 Select Date:
               </label>
               <input
@@ -70,14 +70,14 @@ const Collections = () => {
           )}
 
           {/* Collection Display */}
-          <div className="bg-card-gradient shadow-lg rounded-xl p-6 border border-pink-100">
+          <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black shadow-lg rounded-xl p-6 border border-gray-700">
             {loading ? (
               <div className="flex justify-center items-center py-8">
                 <LoadingSpinner size="large" />
               </div>
             ) : (
               <div className="text-center">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                <h2 className="text-2xl font-bold text-gray-300 mb-4">
                   Collection for {new Date(selectedDate).toLocaleDateString()}
                 </h2>
                 <div className="bg-gradient-to-r from-pink-300 to-purple-300 rounded-xl p-8 text-gray-800 shadow-lg">

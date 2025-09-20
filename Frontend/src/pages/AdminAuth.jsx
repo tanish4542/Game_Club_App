@@ -73,7 +73,7 @@ const AdminAuth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-pink-gradient flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-pink-900 via-black to-purple-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         {/* Large Admin Icon */}
         <div className="flex justify-center mb-6">
@@ -96,7 +96,7 @@ const AdminAuth = () => {
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-card-gradient py-8 px-4 shadow-lg sm:rounded-xl sm:px-10 border border-pink-100">
+        <div className="bg-gradient-to-br from-green-900 via-green-800 to-black py-8 px-4 shadow-lg sm:rounded-xl sm:px-10 border border-green-700">
           {error && (
             <div className="mb-4 bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md">
               {error}

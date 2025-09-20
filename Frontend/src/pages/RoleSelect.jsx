@@ -14,7 +14,7 @@ const RoleSelect = () => {
   };
 
   return (
-    <div className="min-h-screen bg-pink-gradient flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-black to-purple-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-4xl">
         {/* Large Game Controller Logo */}
         <div className="flex justify-center mb-8">
@@ -34,7 +34,7 @@ const RoleSelect = () => {
           {/* Member Widget */}
           <button
             onClick={() => handleRoleSelect('member')}
-            className="bg-card-gradient rounded-2xl shadow-xl p-8 border border-pink-100 transform hover:scale-105 transition-all duration-300 hover:shadow-2xl group"
+            className="bg-gradient-to-br from-pink-500 via-red-600 to-red-300 rounded-2xl shadow-xl p-8 border border-gray-700 transform hover:scale-105 transition-all duration-300 hover:shadow-2xl group"
           >
             <div className="text-center">
               {/* Large Member Icon */}
@@ -46,8 +46,8 @@ const RoleSelect = () => {
                 </div>
               </div>
               
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">Member</h3>
-              <p className="text-gray-600 text-lg">Play games and manage your balance</p>
+              <h3 className="text-2xl font-bold text-white mb-2">Member</h3>
+              <p className="text-gray-300 text-lg">Play games and manage your balance</p>
               
               {/* Additional decorative elements */}
               <div className="mt-6 flex justify-center space-x-2">
@@ -61,7 +61,7 @@ const RoleSelect = () => {
           {/* Admin Widget */}
           <button
             onClick={() => handleRoleSelect('admin')}
-            className="bg-card-gradient rounded-2xl shadow-xl p-8 border border-pink-100 transform hover:scale-105 transition-all duration-300 hover:shadow-2xl group"
+            className="bg-gradient-to-br from-green-900 via-green-800 to-black rounded-2xl shadow-xl p-8 border border-green-700 transform hover:scale-105 transition-all duration-300 hover:shadow-2xl group"
           >
             <div className="text-center">
               {/* Large Admin Icon */}
@@ -73,8 +73,8 @@ const RoleSelect = () => {
                 </div>
               </div>
               
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">Admin</h3>
-              <p className="text-gray-600 text-lg">Manage games, members, and transactions</p>
+              <h3 className="text-2xl font-bold text-white mb-2">Admin</h3>
+              <p className="text-gray-300 text-lg">Manage games, members, and transactions</p>
               
               {/* Additional decorative elements */}
               <div className="mt-6 flex justify-center space-x-2">

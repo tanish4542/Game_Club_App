@@ -114,20 +114,20 @@ const GameManagement = ({ games, onGamesUpdate }) => {
   };
 
   return (
-    <div className="bg-card-gradient shadow-lg overflow-hidden sm:rounded-xl border border-pink-100">
+    <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black shadow-lg overflow-hidden sm:rounded-xl border border-gray-700">
       <div className="px-4 py-5 sm:px-6">
         <div className="flex justify-between items-center">
           <div>
-            <h3 className="text-lg leading-6 font-semibold text-gray-900">
+            <h3 className="text-lg leading-6 font-semibold text-white">
               🎮 Game Management
             </h3>
-            <p className="mt-1 max-w-2xl text-sm text-gray-600">
+            <p className="mt-1 max-w-2xl text-sm text-gray-300">
               Add, edit, or delete games
             </p>
           </div>
           <button
             onClick={() => setShowAddForm(true)}
-            className="bg-gradient-to-r from-green-300 to-green-400 hover:from-green-400 hover:to-green-500 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
+            className="bg-gradient-to-r from-green-800 to-green-900 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 border border-green-700"
           >
             ➕ Add New Game
           </button>
@@ -136,8 +136,8 @@ const GameManagement = ({ games, onGamesUpdate }) => {
 
       {/* Add/Edit Form */}
       {showAddForm && (
-        <div className="px-4 py-5 sm:px-6 border-t border-gray-200">
-          <h4 className="text-md font-medium text-gray-900 mb-4">
+        <div className="px-4 py-5 sm:px-6 border-t border-gray-700">
+          <h4 className="text-md font-medium text-white mb-4">
             {editingGame ? 'Edit Game' : 'Add New Game'}
           </h4>
           
@@ -155,7 +155,7 @@ const GameManagement = ({ games, onGamesUpdate }) => {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="name" className="block text-sm font-medium text-gray-300">
                 Game Name *
               </label>
               <input

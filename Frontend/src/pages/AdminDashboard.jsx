@@ -123,7 +123,7 @@ const AdminDashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800">
         <Header />
         <div className="flex justify-center items-center py-20">
           <LoadingSpinner size="xlarge" />
@@ -133,7 +133,7 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800">
       <Header />
       
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
@@ -148,7 +148,7 @@ const AdminDashboard = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <button
               onClick={() => navigate('/transactions')}
-              className="bg-card-gradient overflow-hidden shadow-lg rounded-xl border border-pink-100 transform hover:scale-105 transition-all duration-300 p-6 text-left hover:shadow-xl"
+              className="bg-gradient-to-br from-blue-900 via-blue-800 to-black overflow-hidden shadow-lg rounded-xl border border-blue-700 transform hover:scale-105 transition-all duration-300 p-6 text-left hover:shadow-xl"
             >
               <div className="flex items-center">
                 <div className="flex-shrink-0">
@@ -160,10 +160,10 @@ const AdminDashboard = () => {
                 </div>
                 <div className="ml-5 w-0 flex-1">
                   <dl>
-                    <dt className="text-sm font-semibold text-gray-600 truncate">
+                    <dt className="text-sm font-semibold text-gray-300 truncate">
                       View Transactions
                     </dt>
-                    <dd className="text-lg font-bold text-gray-800">
+                    <dd className="text-lg font-bold text-white">
                       {transactions.length} Total
                     </dd>
                   </dl>
@@ -173,7 +173,7 @@ const AdminDashboard = () => {
 
             <button
               onClick={() => navigate('/collections')}
-              className="bg-card-gradient overflow-hidden shadow-lg rounded-xl border border-pink-100 transform hover:scale-105 transition-all duration-300 p-6 text-left hover:shadow-xl"
+              className="bg-gradient-to-br from-green-900 via-green-800 to-black overflow-hidden shadow-lg rounded-xl border border-green-700 transform hover:scale-105 transition-all duration-300 p-6 text-left hover:shadow-xl"
             >
               <div className="flex items-center">
                 <div className="flex-shrink-0">
@@ -185,10 +185,10 @@ const AdminDashboard = () => {
                 </div>
                 <div className="ml-5 w-0 flex-1">
                   <dl>
-                    <dt className="text-sm font-semibold text-gray-600 truncate">
+                    <dt className="text-sm font-semibold text-gray-300 truncate">
                       View Collections
                     </dt>
-                    <dd className="text-lg font-bold text-gray-800">
+                    <dd className="text-lg font-bold text-white">
                       ₹{collections?.amount || 0} Today
                     </dd>
                   </dl>
@@ -201,7 +201,7 @@ const AdminDashboard = () => {
                 // Navigate to a recharges page (we'll need to create this)
                 alert('Recharges page coming soon!');
               }}
-              className="bg-card-gradient overflow-hidden shadow-lg rounded-xl border border-pink-100 transform hover:scale-105 transition-all duration-300 p-6 text-left hover:shadow-xl"
+              className="bg-gradient-to-br from-purple-900 via-purple-800 to-black overflow-hidden shadow-lg rounded-xl border border-purple-700 transform hover:scale-105 transition-all duration-300 p-6 text-left hover:shadow-xl"
             >
               <div className="flex items-center">
                 <div className="flex-shrink-0">
@@ -213,10 +213,10 @@ const AdminDashboard = () => {
                 </div>
                 <div className="ml-5 w-0 flex-1">
                   <dl>
-                    <dt className="text-sm font-semibold text-gray-600 truncate">
+                    <dt className="text-sm font-semibold text-gray-300 truncate">
                       View Members
                     </dt>
-                    <dd className="text-lg font-bold text-gray-800">
+                    <dd className="text-lg font-bold text-white">
                       {members.length} Total
                     </dd>
                   </dl>
@@ -224,7 +224,7 @@ const AdminDashboard = () => {
               </div>
             </button>
 
-            <div className="bg-card-gradient overflow-hidden shadow-lg rounded-xl border border-pink-100 p-6">
+            <div className="bg-gradient-to-br from-orange-900 via-orange-800 to-black overflow-hidden shadow-lg rounded-xl border border-orange-700 p-6">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
                   <div className="w-12 h-12 bg-gradient-to-r from-purple-300 to-purple-400 rounded-xl flex items-center justify-center shadow-md">
@@ -235,10 +235,10 @@ const AdminDashboard = () => {
                 </div>
                 <div className="ml-5 w-0 flex-1">
                   <dl>
-                    <dt className="text-sm font-semibold text-gray-600 truncate">
+                    <dt className="text-sm font-semibold text-gray-300 truncate">
                       Total Games
                     </dt>
-                    <dd className="text-lg font-bold text-gray-800">
+                    <dd className="text-lg font-bold text-white">
                       {games.length} Available
                     </dd>
                   </dl>
@@ -267,7 +267,7 @@ const AdminDashboard = () => {
 
           {/* Game Management */}
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Game Management</h2>
+            <h2 className="text-2xl font-bold text-gray-300 mb-6">Game Management</h2>
             <GameManagement
               games={games}
               onGamesUpdate={refreshGames}
