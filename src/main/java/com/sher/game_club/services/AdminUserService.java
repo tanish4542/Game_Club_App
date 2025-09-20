@@ -34,6 +34,14 @@ public class AdminUserService {
         return adminUser.get();
     }
 
+    public AdminUserModel findByPhone(String phone) throws IdNotPresentException {
+        AdminUserModel adminUser = adminUserRepository.findByPhone(phone);
+        if(adminUser == null) {
+            throw new IdNotPresentException("AdminUser with phone " + phone + " not found.");
+        }
+        return adminUser;
+    }
+
     // Update
     public AdminUserModel updateAdminUser(String idString, AdminUserModel updatedAdminUser) throws IdNotPresentException {
         Optional<AdminUserModel> existingAdminUserOpt = adminUserRepository.findById(idString);
@@ -43,6 +51,7 @@ public class AdminUserService {
         AdminUserModel existingAdminUser = existingAdminUserOpt.get();
         existingAdminUser.setUsername(updatedAdminUser.getUsername());
         existingAdminUser.setPassword(updatedAdminUser.getPassword());
+        existingAdminUser.setPhone(updatedAdminUser.getPhone());
         return adminUserRepository.save(existingAdminUser);
     }
 

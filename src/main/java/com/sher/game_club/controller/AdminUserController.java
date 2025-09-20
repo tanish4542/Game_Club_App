@@ -39,6 +39,12 @@ public class AdminUserController {
         return ResponseEntity.status(HttpStatus.OK).body(adminUser);
     }
 
+    @GetMapping(path = "/phone/{phone}")
+    public ResponseEntity<AdminUserModel> findByPhone(@PathVariable String phone) throws IdNotPresentException {
+        AdminUserModel adminUser = adminUserService.findByPhone(phone);
+        return ResponseEntity.status(HttpStatus.OK).body(adminUser);
+    }
+
     @PutMapping(path = "/{id}")
     public ResponseEntity<AdminUserModel> update(@PathVariable String id, @RequestBody AdminUserModel adminUser) throws IdNotPresentException {
         AdminUserModel updatedAdminUser = adminUserService.updateAdminUser(id, adminUser);

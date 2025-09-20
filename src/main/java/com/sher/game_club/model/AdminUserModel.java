@@ -8,6 +8,7 @@ public class AdminUserModel {
     private String id;
     private String username;
     private String password;
+    private String phone;
     public String getId() {
         return id;
     }
@@ -26,16 +27,23 @@ public class AdminUserModel {
     public void setPassword(String password) {
         this.password = password;
     }
-    public AdminUserModel(String id, String username, String password) {
+    public String getPhone() {
+        return phone;
+    }
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+    public AdminUserModel(String id, String username, String password, String phone) {
         this.id = id;
         this.username = username;
         this.password = password;
+        this.phone = phone;
     }
     public AdminUserModel() {
     }
     @Override
     public String toString() {
-        return "AdminUserModel [id=" + id + ", username=" + username + ", password=" + password + "]";
+        return "AdminUserModel [id=" + id + ", username=" + username + ", password=" + password + ", phone=" + phone + "]";
     }
     
     
